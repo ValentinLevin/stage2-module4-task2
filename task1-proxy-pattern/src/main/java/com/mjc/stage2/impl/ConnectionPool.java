@@ -13,15 +13,15 @@ public class ConnectionPool {
     private static final String LOGIN = "login";
     private static final String PASSWORD = "password";
     private static ConnectionPool instance;
-    private Queue<ProxyConnection> freeConnections;
-    private Queue<ProxyConnection> usedConnections;
+    private final Queue<ProxyConnection> freeConnections;
+    private final Queue<ProxyConnection> usedConnections;
 
     private ConnectionPool() {
         freeConnections = new ArrayDeque<>(POOL_SIZE);
         usedConnections = new ArrayDeque<>();
         IntStream.range(0, POOL_SIZE)
                 .mapToObj(i -> new RealConnection(URL, LOGIN, PASSWORD))
-                .map(ProxyConnection::new)
+                .map(readConnection -> new ProxyConnection(readConnection, this))
                 .forEach(freeConnections::offer);
     }
 
