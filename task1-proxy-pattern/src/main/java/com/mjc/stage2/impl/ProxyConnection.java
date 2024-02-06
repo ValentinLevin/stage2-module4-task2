@@ -1,6 +1,5 @@
 package com.mjc.stage2.impl;
 
-
 import com.mjc.stage2.Connection;
 
 public class ProxyConnection implements Connection {
@@ -8,11 +7,10 @@ public class ProxyConnection implements Connection {
     private final ConnectionPool connectionPool;
 
     public ProxyConnection(
-            RealConnection realConnection,
-            ConnectionPool connectionPool
+            RealConnection realConnection
     ) {
         this.realConnection = realConnection;
-        this.connectionPool = connectionPool;
+        this.connectionPool = ConnectionPool.getInstance();
     }
 
     public void reallyClose() {

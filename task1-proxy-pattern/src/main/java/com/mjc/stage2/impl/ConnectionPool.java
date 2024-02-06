@@ -21,7 +21,7 @@ public class ConnectionPool {
         usedConnections = new ArrayDeque<>();
         IntStream.range(0, POOL_SIZE)
                 .mapToObj(i -> new RealConnection(URL, LOGIN, PASSWORD))
-                .map(readConnection -> new ProxyConnection(readConnection, this))
+                .map(ProxyConnection::new)
                 .forEach(freeConnections::offer);
     }
 
